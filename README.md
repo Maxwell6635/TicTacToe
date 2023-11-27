@@ -2,6 +2,11 @@
 
 A simple kotlin version of TicTacToe Android
 
+## Demo
+
+## Setup & Installation
+- Clone this project
+
 ## Tech Stack
 
 - [Kotlin](https://kotlinlang.org/)
@@ -30,7 +35,7 @@ Explain briefly how these dependencies are utilized within your project or any s
 If you'd like to contribute to this project, please follow the guidelines in CONTRIBUTING.md and submit a pull request.
 
 ## License
-This project is licensed under the [License Name] - see the LICENSE.md file for details.
+This project is licensed under the MIT - see the LICENSE.md file for details.
 
 ## Acknowledgments
 Any acknowledgments or credits to individuals or organizations that have contributed to this project or inspired its creation.

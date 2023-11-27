@@ -40,6 +40,7 @@ class PlayWithFriendActivity : AppCompatActivity(), UpdatePlayerGame {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding = ActivityPlayWithFriendBinding.inflate(this.layoutInflater)
         setContentView(binding.root)
         dialog = Dialog(this)
