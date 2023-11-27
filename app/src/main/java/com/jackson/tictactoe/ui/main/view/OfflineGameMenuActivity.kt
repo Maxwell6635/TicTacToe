@@ -7,6 +7,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.jackson.tictactoe.databinding.ActivityOfflineGameMenuBinding
+import com.jackson.tictactoe.ui.SettingsActivity
 import com.jackson.tictactoe.ui.gameplay.nickname.GetPlayersNamesActivity
 import com.jackson.tictactoe.ui.main.viewmodel.OfflineGameMenuViewModel
 import kotlinx.coroutines.launch
@@ -41,11 +42,8 @@ class OfflineGameMenuActivity : AppCompatActivity() {
         binding.btnWithFriend.setOnClickListener {
             GetPlayersNamesActivity.startActivity(this@OfflineGameMenuActivity, isAIMode = false)
         }
-        binding.btnWithAi.setOnClickListener {
-            GetPlayersNamesActivity.startActivity(this@OfflineGameMenuActivity, isAIMode = true)
-        }
         binding.ivSettings.setOnClickListener {
-
+            SettingsActivity.startActivity(this@OfflineGameMenuActivity)
         }
     }
 }

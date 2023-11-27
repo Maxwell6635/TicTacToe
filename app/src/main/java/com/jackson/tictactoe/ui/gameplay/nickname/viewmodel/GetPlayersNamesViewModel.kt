@@ -1,6 +1,7 @@
 package com.jackson.tictactoe.ui.gameplay.nickname.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.jackson.tictactoe.utils.CloseableCoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -14,14 +15,27 @@ class GetPlayersNamesViewModel(
     override val modalEvent: Flow<GetPlayersNamesUiState.ModalEvent>
         get() = _modalEvent.filterNotNull()
 
+    private val _modalEvent: MutableSharedFlow<GetPlayersNamesUiState.ModalEvent?> = MutableSharedFlow()
+
+    private var isAIMode = false
+
     override fun init(isAIMode: Boolean) {
-        if (!isAIMode) {
-            coroutineScope.launch {
+        this.isAIMode = isAIMode
+        if (isAIMode) {
+            viewModelScope.launch {
                 _modalEvent.emit(GetPlayersNamesUiState.ModalEvent.HidePlayerTwoUI)
             }
         }
     }
 
-    private val _modalEvent: MutableSharedFlow<GetPlayersNamesUiState.ModalEvent?> = MutableSharedFlow()
+    fun validateNickName(playerOneName: String?, playerTwoName: String?): Boolean {
+        var isValid = true
+        if (playerOneName.isNullOrEmpty()) {
+            isValid = false
+        } else if (playerTwoName.isNullOrEmpty()) {
+            isValid = false
+        }
+        return isValid
+    }
 
 }

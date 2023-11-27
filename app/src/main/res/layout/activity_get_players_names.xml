@@ -24,6 +24,7 @@
         app:layout_constraintVertical_bias="0.3">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etPlayerOne"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -46,6 +47,7 @@
         app:layout_constraintTop_toBottomOf="@id/tilPlayerOne">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etPlayerTwo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
