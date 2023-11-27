@@ -5,4 +5,8 @@
     <string name="label_next">Next</string>
     <string name="format_args_turn">%s \'s Turn</string>
     <string name="format_args_winning_rate">Winning Rate : %d</string>
+    <string name="label_vibration">Vibration</string>
+    <string name="label_sound">Sound</string>
+    <string name="label_reset">Reset</string>
+    <string name="label_reset_desc">Reset the Game Score</string>
 </resources>

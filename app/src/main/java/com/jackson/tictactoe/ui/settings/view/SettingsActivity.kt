@@ -63,6 +63,9 @@ class SettingsActivity : AppCompatActivity() {
                 viewModel.updateVibrationEnable(false)
             }
         }
+        binding.btnReset.setOnClickListener {
+            viewModel.resetGame()
+        }
     }
 
 }

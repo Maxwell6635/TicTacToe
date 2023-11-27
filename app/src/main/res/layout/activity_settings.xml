@@ -25,7 +25,7 @@
             android:layout_weight="3"
             android:fontFamily="sans-serif"
             android:gravity="center_vertical"
-            android:text="Vibration"
+            android:text="@string/label_vibration"
             android:textColor="@color/black"
             android:textSize="20dp" />
 
@@ -40,6 +40,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/llSound"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -59,7 +60,7 @@
             android:layout_weight="3"
             android:fontFamily="sans-serif"
             android:gravity="center_vertical"
-            android:text="Sound"
+            android:text="@string/label_sound"
             android:textColor="@color/black"
             android:textSize="20dp" />
 
@@ -71,6 +72,36 @@
             android:layout_weight="1.5"
             android:checked="true"
             android:gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llReset"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintTop_toBottomOf="@id/llSound">
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_weight="3"
+            android:fontFamily="sans-serif"
+            android:gravity="center_vertical"
+            android:text="@string/label_reset_desc"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
+
+        <Button
+            android:id="@+id/btnReset"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:text="@string/label_reset" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

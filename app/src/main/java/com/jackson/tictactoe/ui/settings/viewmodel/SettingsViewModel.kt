@@ -39,4 +39,7 @@ class SettingsViewModel(
     fun updateSoundEnable(isEnabled: Boolean) {
         sharedPref.put(PREFS_ENABLE_SOUND, isEnabled)
     }
+    fun resetGame() {
+        sharedPref.clear()
+    }
 }
