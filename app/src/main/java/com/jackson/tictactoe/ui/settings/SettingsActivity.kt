@@ -1,4 +1,4 @@
-package com.jackson.tictactoe.ui
+package com.jackson.tictactoe.ui.settings
 
 import android.content.Context
 import android.content.Intent

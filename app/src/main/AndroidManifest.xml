@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools" >
 
     <application
+        android:name=".MainApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -13,13 +14,13 @@
         android:theme="@style/Theme.TicTacToe"
         tools:targetApi="31" >
         <activity
-            android:name=".ui.gameplay.nickname.GetPlayersNamesActivity"
+            android:name=".ui.gameplay.nickname.view.GetPlayersNamesActivity"
             android:exported="false" />
         <activity
             android:name=".ui.gameplay.friend.view.PlayWithFriendActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.SettingsActivity"
+            android:name=".ui.settings.SettingsActivity"
             android:exported="false" />
         <activity
             android:name=".ui.main.view.OfflineGameMenuActivity"

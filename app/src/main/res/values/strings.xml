@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TicTacToe</string>
+    <string name="label_play_again">PLAY AGAIN</string>
+    <string name="label_home">HOME</string>
+    <string name="label_next">Next</string>
+    <string name="format_args_turn">%s \'s Turn</string>
 </resources>

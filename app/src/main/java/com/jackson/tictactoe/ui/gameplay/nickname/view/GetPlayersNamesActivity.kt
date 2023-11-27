@@ -1,4 +1,4 @@
-package com.jackson.tictactoe.ui.gameplay.nickname
+package com.jackson.tictactoe.ui.gameplay.nickname.view
 
 import android.content.Context
 import android.content.Intent
@@ -8,12 +8,13 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.jackson.tictactoe.databinding.ActivityGetPlayersNamesBinding
+import com.jackson.tictactoe.domain.Player
 import com.jackson.tictactoe.ui.gameplay.friend.view.PlayWithFriendActivity
 import com.jackson.tictactoe.ui.gameplay.nickname.viewmodel.GetPlayersNamesUiState
 import com.jackson.tictactoe.ui.gameplay.nickname.viewmodel.GetPlayersNamesViewModel
 import com.jackson.tictactoe.utils.SharedPref
-import com.jackson.tictactoe.utils.SharedPref.Companion.PREFS_PLAYER_ONE_NAME
-import com.jackson.tictactoe.utils.SharedPref.Companion.PREFS_PLAYER_TWO_NAME
+import com.jackson.tictactoe.utils.SharedPref.Companion.PREFS_PLAYER_ONE
+import com.jackson.tictactoe.utils.SharedPref.Companion.PREFS_PLAYER_TWO
 import kotlinx.coroutines.launch
 
 class GetPlayersNamesActivity : AppCompatActivity() {
@@ -33,6 +34,8 @@ class GetPlayersNamesActivity : AppCompatActivity() {
     private lateinit var sharedPref: SharedPref
     private val viewModel: GetPlayersNamesViewModel by viewModels()
     private var isAIMode = false
+    private var playerOne : Player = Player()
+    private var playerTwo: Player = Player()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,13 +63,15 @@ class GetPlayersNamesActivity : AppCompatActivity() {
     }
 
     private fun initializeUI() {
-        binding.etPlayerOne.setText(sharedPref.getString(PREFS_PLAYER_ONE_NAME))
-        binding.etPlayerTwo.setText(sharedPref.getString(PREFS_PLAYER_TWO_NAME))
         binding.btnNext.setOnClickListener {
             if (viewModel.validateNickName(binding.etPlayerOne.text.toString(), binding.etPlayerTwo.text.toString())) {
-                sharedPref.put(PREFS_PLAYER_ONE_NAME, binding.etPlayerTwo.text.toString())
-                sharedPref.put(PREFS_PLAYER_TWO_NAME, binding.etPlayerTwo.text.toString())
-                PlayWithFriendActivity.startActivity(this@GetPlayersNamesActivity, binding.etPlayerOne.text.toString(), binding.etPlayerTwo.text.toString())
+                playerOne = Player(name = binding.etPlayerOne.text.toString())
+                playerTwo = Player(name = binding.etPlayerTwo.text.toString())
+
+                sharedPref.put(PREFS_PLAYER_ONE, viewModel.convertPlayerToJsonString(playerOne))
+                sharedPref.put(PREFS_PLAYER_TWO,  viewModel.convertPlayerToJsonString(playerTwo))
+
+                PlayWithFriendActivity.startActivity(this@GetPlayersNamesActivity)
             }
         }
     }

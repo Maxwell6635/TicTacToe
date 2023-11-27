@@ -1,32 +1,33 @@
-package com.jackson.tictactoe.ui.gameplay.nickname.viewmodel
+package com.jackson.tictactoe.ui.gameplay.friend.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.jackson.tictactoe.domain.Player
 import com.jackson.tictactoe.utils.CloseableCoroutineScope
+import com.jackson.tictactoe.utils.SharedPref
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 
-class GetPlayersNamesViewModel(
-    private val coroutineScope: CloseableCoroutineScope = CloseableCoroutineScope()
-) : ViewModel(coroutineScope), GetPlayersNamesUiState {
+class PlayWithFriendViewModel(
+    coroutineScope: CloseableCoroutineScope,
+    private val sharedPref: SharedPref
+) : ViewModel(coroutineScope), PlayWithFriendsUiState {
 
-    override val modalEvent: Flow<GetPlayersNamesUiState.ModalEvent>
+    override val modalEvent: Flow<PlayWithFriendsUiState.ModalEvent>
         get() = _modalEvent.filterNotNull()
 
-    private val _modalEvent: MutableSharedFlow<GetPlayersNamesUiState.ModalEvent?> = MutableSharedFlow()
+    private val _modalEvent: MutableSharedFlow<PlayWithFriendsUiState.ModalEvent?> = MutableSharedFlow()
 
-    private var isAIMode = false
-
-    override fun init(isAIMode: Boolean) {
-        this.isAIMode = isAIMode
-        if (isAIMode) {
-            viewModelScope.launch {
-                _modalEvent.emit(GetPlayersNamesUiState.ModalEvent.HidePlayerTwoUI)
-            }
+    private var playerOne = Player()
+    private var playerTwo = Player()
+    override fun init() {
+        viewModelScope.launch {
+            playerOne = sharedPref.getPlayerOneProfile() ?: Player()
+            playerTwo = sharedPref.getPlayerTwoProfile() ?: Player()
+            _modalEvent.emit(PlayWithFriendsUiState.ModalEvent.UpdatePlayerUiState(playerOne, playerTwo))
         }
     }
 

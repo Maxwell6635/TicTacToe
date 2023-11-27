@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.gameplay.nickname.GetPlayersNamesActivity">
+    tools:context=".ui.gameplay.nickname.view.GetPlayersNamesActivity">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilPlayerOne"
@@ -60,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         android:fontFamily="sans-serif-medium"
-        android:text="Next"
+        android:text="@string/label_next"
         android:textAllCaps="false"
         android:textColor="#FF3D00"
         android:textSize="18dp"

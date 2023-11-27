@@ -2,6 +2,8 @@ package com.jackson.tictactoe.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.google.gson.Gson
+import com.jackson.tictactoe.domain.Player
 
 class SharedPref(context: Context) {
 
@@ -9,6 +11,8 @@ class SharedPref(context: Context) {
         private const val PREFS_NAME = "sharedpref_tictactoe"
         const val PREFS_PLAYER_ONE_NAME = "PREFS_PLAYER_ONE_NAME"
         const val PREFS_PLAYER_TWO_NAME = "PREFS_PLAYER_TWO_NAME"
+        const val PREFS_PLAYER_ONE = "PREFS_PLAYER_ONE"
+        const val PREFS_PLAYER_TWO = "PREFS_PLAYER_ONE"
     }
 
     private val sharedPref: SharedPreferences
@@ -35,6 +39,26 @@ class SharedPref(context: Context) {
 
     fun getString(key: String): String? {
         return sharedPref.getString(key, null)
+    }
+
+    fun getPlayerOneProfile(): Player? {
+        val jsonInString = sharedPref.getString(PREFS_PLAYER_ONE, "")
+        return try {
+            Gson().fromJson(jsonInString, Player::class.java)
+        } catch (e: Exception) {
+            Player()
+        }
+        return Player()
+    }
+
+    fun getPlayerTwoProfile(): Player? {
+        val jsonInString = sharedPref.getString(PREFS_PLAYER_TWO, "")
+        return try {
+            Gson().fromJson(jsonInString, Player::class.java)
+        } catch (e: Exception) {
+            Player()
+        }
+        return Player()
     }
 
     fun clear() {

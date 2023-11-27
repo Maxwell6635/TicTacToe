@@ -1,203 +1,186 @@
-package com.jackson.tictactoe.utils;
+package com.jackson.tictactoe.utils
 
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.util.AttributeSet
+import android.view.MotionEvent
+import android.view.View
+import android.widget.Button
+import android.widget.TextView
+import com.jackson.tictactoe.R
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+class TicTacToeBoard(context: Context, attrs: AttributeSet?) : View(context, attrs) {
+    private var boardColor = 0
+    private var XColor = 0
+    private var OColor = 0
+    private var winningLineColor = 0
+    private var winningLine = false
+    private val paint = Paint()
+    private var cellSize = width / 3
+    private val game: GameLogic = GameLogic()
 
-import com.jackson.tictactoe.R;
-
-public class TicTacToeBoard extends View {
-
-    private final int boardColor;
-    private final int XColor;
-    private final int OColor;
-    private final int winningLineColor;
-    private boolean winningLine = false;
-    private final Paint paint = new Paint();
-
-    private int cellSize = getWidth() / 3;
-
-    private final GameLogic game;
-
-    public TicTacToeBoard(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        game = new GameLogic();
-        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.TicTacToeBoard, 0, 0);
+    init {
+        val a = context.theme.obtainStyledAttributes(attrs, R.styleable.TicTacToeBoard, 0, 0)
         try {
-            boardColor = a.getInteger(R.styleable.TicTacToeBoard_boardColor, 0);
-            XColor = a.getInteger(R.styleable.TicTacToeBoard_XColor, 0);
-            OColor = a.getInteger(R.styleable.TicTacToeBoard_OColor, 0);
-            winningLineColor = a.getInteger(R.styleable.TicTacToeBoard_winningLineColor, 0);
+            boardColor = a.getInteger(R.styleable.TicTacToeBoard_boardColor, 0)
+            XColor = a.getInteger(R.styleable.TicTacToeBoard_XColor, 0)
+            OColor = a.getInteger(R.styleable.TicTacToeBoard_OColor, 0)
+            winningLineColor = a.getInteger(R.styleable.TicTacToeBoard_winningLineColor, 0)
         } finally {
-            a.recycle();
+            a.recycle()
         }
     }
 
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-        int dimension = Math.min(getMeasuredWidth(), getMeasuredHeight());
-        cellSize = dimension / 3;
-        setMeasuredDimension(dimension, dimension);
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        val dimension = Math.min(measuredWidth, measuredHeight)
+        cellSize = dimension / 3
+        setMeasuredDimension(dimension, dimension)
     }
 
-    @Override
-    protected void onDraw(@NonNull Canvas canvas) {
-        super.onDraw(canvas);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setAntiAlias(true);
-
-        drawGameBoard(canvas);
-        drawMarkers(canvas);
-
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
+        paint.style = Paint.Style.STROKE
+        paint.isAntiAlias = true
+        drawGameBoard(canvas)
+        drawMarkers(canvas)
         if (winningLine) {
-            paint.setColor(winningLineColor);
-            drawWinningLine(canvas);
+            paint.color = winningLineColor
+            drawWinningLine(canvas)
         }
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        float x = event.getX();
-        float y = event.getY();
-
-        int action = event.getAction();
-
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        val x = event.x
+        val y = event.y
+        val action = event.action
         if (action == MotionEvent.ACTION_DOWN) {
-            int row = (int) Math.ceil(y / cellSize);
-            int col = (int) Math.ceil(x / cellSize);
-
+            val row = Math.ceil((y / cellSize).toDouble()).toInt()
+            val col = Math.ceil((x / cellSize).toDouble()).toInt()
             if (!winningLine) {
                 if (game.updateGameBoard(row, col)) {
-                    invalidate();
-
+                    invalidate()
                     if (game.winnerCheck()) {
-                        winningLine = true;
-                        invalidate();
+                        winningLine = true
+                        invalidate()
                     }
-                    if (game.getPlayer() % 2 == 0) {
-                        game.setPlayer(game.getPlayer() -1);
+                    if (game.player % 2 == 0) {
+                        game.player = game.player - 1
                     } else {
-                        game.setPlayer(game.getPlayer() + 1);
+                        game.player = game.player + 1
                     }
                 }
             }
-            invalidate();
-
-            return true;
+            invalidate()
+            return true
         }
-        return false;
+        return false
     }
 
-    private void drawGameBoard(Canvas canvas) {
-        paint.setColor(boardColor);
-        paint.setStrokeWidth(16);
-
-        for (int c = 1; c < 3; c++) {
-            canvas.drawLine(cellSize * c, 0, cellSize * c, canvas.getWidth(), paint);
+    private fun drawGameBoard(canvas: Canvas) {
+        paint.color = boardColor
+        paint.strokeWidth = 16f
+        for (c in 1..2) {
+            canvas.drawLine((cellSize * c).toFloat(), 0f, (cellSize * c).toFloat(), canvas.width.toFloat(), paint)
         }
-
-        for (int r = 1; r < 3; r++) {
-            canvas.drawLine(0, cellSize * r, canvas.getWidth(), cellSize * r, paint);
+        for (r in 1..2) {
+            canvas.drawLine(0f, (cellSize * r).toFloat(), canvas.width.toFloat(), (cellSize * r).toFloat(), paint)
         }
     }
 
-
-    private void drawX(Canvas canvas, int row, int col) {
-        paint.setColor(XColor);
-
-        canvas.drawLine((float) ((col + 1) * cellSize - cellSize * 0.2),
-                (float) (row * cellSize + cellSize * 0.2),
-                (float) (col * cellSize + cellSize * 0.2),
-                (float) ((row + 1) * cellSize - cellSize * 0.2), paint);
-
-        canvas.drawLine((float) (col * cellSize + cellSize * 0.2),
-                (float) (row * cellSize + cellSize * 0.2),
-                (float) ((col + 1) * cellSize - cellSize * 0.2),
-                (float) ((row + 1) * cellSize - cellSize * 0.2), paint);
+    private fun drawX(canvas: Canvas, row: Int, col: Int) {
+        paint.color = XColor
+        canvas.drawLine(
+            ((col + 1) * cellSize - cellSize * 0.2).toFloat(),
+            (row * cellSize + cellSize * 0.2).toFloat(),
+            (col * cellSize + cellSize * 0.2).toFloat(),
+            ((row + 1) * cellSize - cellSize * 0.2).toFloat(),
+            paint
+        )
+        canvas.drawLine(
+            (col * cellSize + cellSize * 0.2).toFloat(),
+            (row * cellSize + cellSize * 0.2).toFloat(),
+            ((col + 1) * cellSize - cellSize * 0.2).toFloat(),
+            ((row + 1) * cellSize - cellSize * 0.2).toFloat(),
+            paint
+        )
     }
 
-    private void drawOval(Canvas canvas, int row, int col) {
-        paint.setColor(OColor);
-
-        canvas.drawOval((float) (col * cellSize + cellSize * 0.2),
-                (float) (row * cellSize + cellSize * 0.2),
-                (float) ((col * cellSize + cellSize) - cellSize * 0.2),
-                (float) ((row * cellSize + cellSize) - cellSize * 0.2), paint);
-
+    private fun drawOval(canvas: Canvas, row: Int, col: Int) {
+        paint.color = OColor
+        canvas.drawOval(
+            (col * cellSize + cellSize * 0.2).toFloat(),
+            (row * cellSize + cellSize * 0.2).toFloat(),
+            (col * cellSize + cellSize - cellSize * 0.2).toFloat(),
+            (row * cellSize + cellSize - cellSize * 0.2).toFloat(),
+            paint
+        )
     }
 
-    private void drawMarkers(Canvas canvas) {
-        for (int r=0; r<3; r++) {
-            for (int c=0; c<3; c++) {
-                if (game.getGameBoard()[r][c] != 0) {
-                    if (game.getGameBoard()[r][c] == 1) {
-                        drawX(canvas, r, c);
+    private fun drawMarkers(canvas: Canvas) {
+        for (r in 0..2) {
+            for (c in 0..2) {
+                if (game.gameBoard[r][c] != 0) {
+                    if (game.gameBoard[r][c] == 1) {
+                        drawX(canvas, r, c)
                     } else {
-                        drawOval(canvas, r, c);
+                        drawOval(canvas, r, c)
                     }
                 }
             }
         }
     }
 
-    private void drawHorizontalLine(Canvas canvas, int row, int col) {
-        canvas.drawLine(col, row*cellSize+ cellSize/2, cellSize*3, row*cellSize + cellSize/2, paint);
+    private fun drawHorizontalLine(canvas: Canvas, row: Int, col: Int) {
+        canvas.drawLine(
+            col.toFloat(),
+            (row * cellSize + cellSize / 2).toFloat(),
+            (cellSize * 3).toFloat(),
+            (row * cellSize + cellSize / 2).toFloat(),
+            paint
+        )
     }
 
-    private void drawVerticalLine(Canvas canvas, int row, int col) {
-        canvas.drawLine(col*cellSize+ cellSize/2, row, col*cellSize + cellSize/2, cellSize*3, paint);
+    private fun drawVerticalLine(canvas: Canvas, row: Int, col: Int) {
+        canvas.drawLine(
+            (col * cellSize + cellSize / 2).toFloat(),
+            row.toFloat(),
+            (col * cellSize + cellSize / 2).toFloat(),
+            (cellSize * 3).toFloat(),
+            paint
+        )
     }
 
-    private void drawDiagonalLinePos(Canvas canvas) {
-        canvas.drawLine(0, cellSize*3, cellSize*3, 0, paint);
+    private fun drawDiagonalLinePos(canvas: Canvas) {
+        canvas.drawLine(0f, (cellSize * 3).toFloat(), (cellSize * 3).toFloat(), 0f, paint)
     }
 
-    private void drawDiagonalLineNeg(Canvas canvas) {
-        canvas.drawLine(0, 0, cellSize*3, cellSize*3, paint);
+    private fun drawDiagonalLineNeg(canvas: Canvas) {
+        canvas.drawLine(0f, 0f, (cellSize * 3).toFloat(), (cellSize * 3).toFloat(), paint)
     }
 
-    private void drawWinningLine(Canvas canvas) {
-        int row = game.getWinType()[0];
-        int col = game.getWinType()[1];
-
-      switch (game.getWinType()[2]) {
-          case 1:
-              drawHorizontalLine(canvas, row, col);
-              break;
-          case 2:
-              drawVerticalLine(canvas, row, col);
-              break;
-          case 3:
-              drawDiagonalLineNeg(canvas);
-              break;
-          case 4:
-              drawDiagonalLinePos(canvas);
-              break;
-      }
+    private fun drawWinningLine(canvas: Canvas) {
+        val row = game.winType[0]
+        val col = game.winType[1]
+        when (game.winType[2]) {
+            1 -> drawHorizontalLine(canvas, row, col)
+            2 -> drawVerticalLine(canvas, row, col)
+            3 -> drawDiagonalLineNeg(canvas)
+            4 -> drawDiagonalLinePos(canvas)
+        }
     }
 
-    public void setUpGame(Button playAgain, Button home, TextView playerDisplay, String[] names) {
-        game.setPlayAgainBtn(playAgain);
-        game.setHomeBtn(home);
-        game.setPlayerTurn(playerDisplay);
-        game.setPlayerNames(names);
-    }
-    public void resetGame() {
-        game.resetGame();
-        winningLine = false;
-        invalidate();
+    fun setUpGame(playAgain: Button?, home: Button?, playerDisplay: TextView?, names: Array<String>) {
+        game.playAgainBtn = playAgain
+        game.homeBtn = home
+        game.playerTurn = playerDisplay
+        game.setPlayerNames(names)
     }
 
+    fun resetGame() {
+        game.resetGame()
+        winningLine = false
+        invalidate()
+    }
 }

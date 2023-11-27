@@ -7,9 +7,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.jackson.tictactoe.databinding.ActivityOfflineGameMenuBinding
-import com.jackson.tictactoe.ui.SettingsActivity
-import com.jackson.tictactoe.ui.gameplay.nickname.GetPlayersNamesActivity
+import com.jackson.tictactoe.ui.gameplay.nickname.view.GetPlayersNamesActivity
 import com.jackson.tictactoe.ui.main.viewmodel.OfflineGameMenuViewModel
+import com.jackson.tictactoe.ui.settings.SettingsActivity
 import kotlinx.coroutines.launch
 
 class OfflineGameMenuActivity : AppCompatActivity() {
@@ -30,6 +30,7 @@ class OfflineGameMenuActivity : AppCompatActivity() {
                 }
             }
         }
+
         initializeUI()
     }
 

@@ -4,32 +4,47 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.jackson.tictactoe.R
 import com.jackson.tictactoe.databinding.ActivityPlayWithFriendBinding
+import com.jackson.tictactoe.ui.gameplay.friend.viewmodel.PlayWithFriendViewModel
+import com.jackson.tictactoe.ui.gameplay.friend.viewmodel.PlayWithFriendsUiState
+import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlayWithFriendActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityPlayWithFriendBinding
+    private lateinit var binding: ActivityPlayWithFriendBinding
+    private val viewModel: PlayWithFriendViewModel by viewModel()
 
     companion object {
-        private const val INTENT_PARAM_PLAYER_ONE_NAME = "INTENT_PARAM_PLAYER_ONE_NAME"
-        private const val INTENT_PARAM_PLAYER_TWO_NAME = "INTENT_PARAM_PLAYER_TWO_NAME"
 
-        fun startActivity(context: Context, playerOneName: String, playerTwoName: String) {
-            context.startActivity(
-                Intent(context, PlayWithFriendActivity::class.java)
-                    .putExtra(INTENT_PARAM_PLAYER_ONE_NAME, playerOneName)
-                    .putExtra(INTENT_PARAM_PLAYER_TWO_NAME, playerTwoName)
-            )
+        fun startActivity(context: Context) {
+            context.startActivity(Intent(context, PlayWithFriendActivity::class.java))
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding =  ActivityPlayWithFriendBinding.inflate(this.layoutInflater)
+        binding = ActivityPlayWithFriendBinding.inflate(this.layoutInflater)
         setContentView(binding.root)
-        val playerOneName = intent.getStringExtra(INTENT_PARAM_PLAYER_ONE_NAME) ?: "Player One"
-        val playerTwoName = intent.getStringExtra(INTENT_PARAM_PLAYER_TWO_NAME) ?: "Player Two"
-        binding.llPLayerOne.text = playerOneName + "'s Turn"
-        binding.ticTacToeBoard.setUpGame(binding.btnPlayAgain, binding.btnHome, binding.llPLayerOne, arrayOf(playerOneName, playerTwoName))
+
+        lifecycleScope.launch {
+            viewModel.modalEvent.collect {
+                when (it) {
+                    is PlayWithFriendsUiState.ModalEvent.UpdatePlayerUiState -> {
+                        binding.llPLayerOne.text = String.format(getString(R.string.format_args_turn), it.playerOne.name)
+                        binding.ticTacToeBoard.setUpGame(
+                            binding.btnPlayAgain,
+                            binding.btnHome,
+                            binding.llPLayerOne,
+                            arrayOf(it.playerOne.name.toString(), it.playerTwo.name.toString())
+                        )
+                    }
+                }
+            }
+        }
+        viewModel.init()
         setupUI()
     }
 
