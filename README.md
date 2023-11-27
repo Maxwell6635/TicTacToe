@@ -1,5 +1,5 @@
 # TicTacToe
-A simple kotlin version of TicTacToe Android
+A simple kotlin version of TicTacToe Android leverage on MVVM Architecture
 
 ## Demo
 [Screen Recording](https://github.com/Maxwell6635/TicTacToe/blob/main/Screen_recording_20231127_182651.webm)
@@ -11,7 +11,6 @@ A simple kotlin version of TicTacToe Android
 - Build & Run into your emulator device
 
 ## Tech Stack
-
 - [Kotlin](https://kotlinlang.org/)
 - [AndroidX](https://developer.android.com/jetpack/androidx)
 - [Core-KTX](https://developer.android.com/kotlin/ktx)
