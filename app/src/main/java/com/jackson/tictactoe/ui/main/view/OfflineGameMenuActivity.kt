@@ -1,20 +1,29 @@
 package com.jackson.tictactoe.ui.main.view
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.jackson.tictactoe.databinding.ActivityOfflineGameMenuBinding
+import com.jackson.tictactoe.ui.gameplay.friend.view.PlayWithFriendActivity
 import com.jackson.tictactoe.ui.gameplay.nickname.view.GetPlayersNamesActivity
 import com.jackson.tictactoe.ui.main.viewmodel.OfflineGameMenuViewModel
 import com.jackson.tictactoe.ui.settings.SettingsActivity
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class OfflineGameMenuActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOfflineGameMenuBinding
-    private val viewModel: OfflineGameMenuViewModel by viewModels()
+    private val viewModel: OfflineGameMenuViewModel by viewModel()
+
+    companion object {
+        fun startActivity(context: Context) {
+            context.startActivity(Intent(context, OfflineGameMenuActivity::class.java))
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +50,11 @@ class OfflineGameMenuActivity : AppCompatActivity() {
 
     private fun initializeUI() {
         binding.btnWithFriend.setOnClickListener {
-            GetPlayersNamesActivity.startActivity(this@OfflineGameMenuActivity, isAIMode = false)
+            if (viewModel.checkIsExistingPlayer()) {
+                PlayWithFriendActivity.startActivity(this@OfflineGameMenuActivity)
+            } else {
+                GetPlayersNamesActivity.startActivity(this@OfflineGameMenuActivity, isAIMode = false)
+            }
         }
         binding.ivSettings.setOnClickListener {
             SettingsActivity.startActivity(this@OfflineGameMenuActivity)

@@ -4,4 +4,5 @@
     <string name="label_home">HOME</string>
     <string name="label_next">Next</string>
     <string name="format_args_turn">%s \'s Turn</string>
+    <string name="format_args_winning_rate">Winning Rate : %d</string>
 </resources>

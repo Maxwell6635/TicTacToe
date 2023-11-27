@@ -6,9 +6,11 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Button
 import android.widget.TextView
 import com.jackson.tictactoe.R
+import com.jackson.tictactoe.domain.Player
+import com.jackson.tictactoe.ui.gameplay.friend.UpdatePlayerGame
+import kotlin.math.ceil
 
 class TicTacToeBoard(context: Context, attrs: AttributeSet?) : View(context, attrs) {
     private var boardColor = 0
@@ -19,6 +21,7 @@ class TicTacToeBoard(context: Context, attrs: AttributeSet?) : View(context, att
     private val paint = Paint()
     private var cellSize = width / 3
     private val game: GameLogic = GameLogic()
+    private var listener : UpdatePlayerGame? = null
 
     init {
         val a = context.theme.obtainStyledAttributes(attrs, R.styleable.TicTacToeBoard, 0, 0)
@@ -56,19 +59,21 @@ class TicTacToeBoard(context: Context, attrs: AttributeSet?) : View(context, att
         val y = event.y
         val action = event.action
         if (action == MotionEvent.ACTION_DOWN) {
-            val row = Math.ceil((y / cellSize).toDouble()).toInt()
-            val col = Math.ceil((x / cellSize).toDouble()).toInt()
+            val row = ceil((y / cellSize).toDouble()).toInt()
+            val col = ceil((x / cellSize).toDouble()).toInt()
             if (!winningLine) {
                 if (game.updateGameBoard(row, col)) {
                     invalidate()
                     if (game.winnerCheck()) {
-                        winningLine = true
+                        listener?.updatePlayerWinStreak(game.player, game.winType[2] == 5)
                         invalidate()
                     }
                     if (game.player % 2 == 0) {
                         game.player = game.player - 1
+                        listener?.makeSoundAndVibration(game.player)
                     } else {
                         game.player = game.player + 1
+                        listener?.makeSoundAndVibration(game.player)
                     }
                 }
             }
@@ -171,11 +176,10 @@ class TicTacToeBoard(context: Context, attrs: AttributeSet?) : View(context, att
         }
     }
 
-    fun setUpGame(playAgain: Button?, home: Button?, playerDisplay: TextView?, names: Array<String>) {
-        game.playAgainBtn = playAgain
-        game.homeBtn = home
+    fun setUpGame(playerDisplay: TextView?, names: Array<Player>, updatePlayerGame: UpdatePlayerGame) {
         game.playerTurn = playerDisplay
-        game.setPlayerNames(names)
+        game.setPlayerNames(arrayOf(names[0].name.toString(), names[1].name.toString()))
+        listener = updatePlayerGame
     }
 
     fun resetGame() {

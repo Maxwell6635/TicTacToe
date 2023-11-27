@@ -31,18 +31,28 @@ class PlayWithFriendViewModel(
         }
     }
 
-    fun validateNickName(playerOneName: String?, playerTwoName: String?): Boolean {
-        var isValid = true
-        if (playerOneName.isNullOrEmpty()) {
-            isValid = false
-        } else if (playerTwoName.isNullOrEmpty()) {
-            isValid = false
+    fun updateWinSteak(position: Int) {
+        if (position == 0) {
+            playerOne.winCount = playerOne.winCount +1
+            playerOne.totalGamePlay = playerOne.totalGamePlay +1
+
+            playerTwo.lostCount = playerTwo.lostCount +1
+            playerTwo.totalGamePlay = playerTwo.totalGamePlay +1
+
+        } else {
+            playerTwo.winCount = playerTwo.winCount +1
+            playerTwo.totalGamePlay = playerTwo.totalGamePlay +1
+
+            playerOne.lostCount = playerOne.lostCount +1
+            playerOne.totalGamePlay = playerOne.totalGamePlay +1
         }
-        return isValid
+
+        sharedPref.updatePlayerProfile(convertPlayerToJsonString(playerOne), convertPlayerToJsonString(playerTwo))
     }
 
     fun convertPlayerToJsonString(playerName: Player): String {
         return Gson().toJson(playerName)
     }
+
 
 }

@@ -1,15 +1,13 @@
 package com.jackson.tictactoe.utils
 
-import android.view.View
-import android.widget.Button
 import android.widget.TextView
 
 class GameLogic internal constructor() {
     val gameBoard: Array<IntArray> = Array(3) { IntArray(3) }
     private var playerNames = arrayOf("Player 1", "Player 2")
-    var playAgainBtn: Button? = null
-    var homeBtn: Button? = null
+
     var playerTurn: TextView? = null
+    var winningRate: TextView? = null
     var player = 1
     var winType = intArrayOf(-1, -1, -1)
         private set
@@ -26,9 +24,9 @@ class GameLogic internal constructor() {
         return if (gameBoard[row - 1][col - 1] == 0) {
             gameBoard[row - 1][col - 1] = player
             if (player == 1) {
-                playerTurn!!.text = playerNames[1] + "'s Turn"
+                playerTurn?.text = playerNames[1] + "'s Turn"
             } else {
-                playerTurn!!.text = playerNames[0] + "'s Turn"
+                playerTurn?.text = playerNames[0] + "'s Turn"
             }
             true
         } else {
@@ -45,19 +43,22 @@ class GameLogic internal constructor() {
             }
         }
         for (c in 0..2) {
-            if (gameBoard[c][0] == gameBoard[c][1] && gameBoard[c][0] == gameBoard[c][2] && gameBoard[c][0] != 0) {
+            if (gameBoard[0][c] == gameBoard[1][c] && gameBoard[2][c] == gameBoard[0][c] && gameBoard[0][c] != 0) {
                 winType = intArrayOf(0, c, 2)
                 isWinner = true
             }
         }
+
         if (gameBoard[0][0] == gameBoard[1][1] && gameBoard[0][0] == gameBoard[2][2] && gameBoard[0][0] != 0) {
             winType = intArrayOf(0, 2, 3)
             isWinner = true
         }
+
         if (gameBoard[2][0] == gameBoard[1][1] && gameBoard[2][0] == gameBoard[0][2] && gameBoard[2][0] != 0) {
             winType = intArrayOf(2, 2, 4)
             isWinner = true
         }
+
         var boardFilled = 0
         for (r in 0..2) {
             for (c in 0..2) {
@@ -67,14 +68,11 @@ class GameLogic internal constructor() {
             }
         }
         return if (isWinner) {
-            playAgainBtn!!.visibility = View.VISIBLE
-            homeBtn!!.visibility = View.VISIBLE
-            playerTurn!!.text = playerNames[player - 1] + "has Won!!!!"
+            playerTurn?.text = playerNames[player - 1] + " has Won!!!!"
             true
         } else if (boardFilled == 9) {
-            playAgainBtn!!.visibility = View.VISIBLE
-            homeBtn!!.visibility = View.VISIBLE
-            playerTurn!!.text = "Tie Game!!!!!"
+            playerTurn?.text = "Tie Game!!!!!"
+            winType = intArrayOf(0, 0, 5)
             true
         } else {
             false
@@ -88,9 +86,10 @@ class GameLogic internal constructor() {
             }
         }
         player = 1
-        playAgainBtn!!.visibility = View.GONE
-        homeBtn!!.visibility = View.GONE
-        playerTurn!!.text = playerNames[1] + "'s Turn"
+//        playAgainBtn?.visibility = View.GONE
+//        homeBtn?.visibility = View.GONE
+        playerTurn?.text = playerNames[1] + "'s Turn"
+        winningRate?.text
     }
 
     fun setPlayerNames(playerNames: Array<String>) {

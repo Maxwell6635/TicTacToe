@@ -12,7 +12,7 @@ class SharedPref(context: Context) {
         const val PREFS_PLAYER_ONE_NAME = "PREFS_PLAYER_ONE_NAME"
         const val PREFS_PLAYER_TWO_NAME = "PREFS_PLAYER_TWO_NAME"
         const val PREFS_PLAYER_ONE = "PREFS_PLAYER_ONE"
-        const val PREFS_PLAYER_TWO = "PREFS_PLAYER_ONE"
+        const val PREFS_PLAYER_TWO = "PREFS_PLAYER_TWO"
     }
 
     private val sharedPref: SharedPreferences
@@ -41,14 +41,18 @@ class SharedPref(context: Context) {
         return sharedPref.getString(key, null)
     }
 
+    fun updatePlayerProfile(playerOne: String, playerTwo: String) {
+        put(PREFS_PLAYER_ONE, playerOne)
+        put(PREFS_PLAYER_TWO, playerTwo)
+    }
+
     fun getPlayerOneProfile(): Player? {
         val jsonInString = sharedPref.getString(PREFS_PLAYER_ONE, "")
         return try {
             Gson().fromJson(jsonInString, Player::class.java)
         } catch (e: Exception) {
-            Player()
+            null
         }
-        return Player()
     }
 
     fun getPlayerTwoProfile(): Player? {
@@ -56,9 +60,8 @@ class SharedPref(context: Context) {
         return try {
             Gson().fromJson(jsonInString, Player::class.java)
         } catch (e: Exception) {
-            Player()
+            null
         }
-        return Player()
     }
 
     fun clear() {
