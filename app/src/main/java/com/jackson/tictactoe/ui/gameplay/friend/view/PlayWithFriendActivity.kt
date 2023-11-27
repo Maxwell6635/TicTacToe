@@ -64,6 +64,11 @@ class PlayWithFriendActivity : AppCompatActivity(), UpdatePlayerGame {
         viewModel.init()
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
+    }
+
     override fun updatePlayerWinStreak(position: Int, isTieGame: Boolean) {
         if (isTieGame) {
             showDrawDialog()
@@ -79,21 +84,21 @@ class PlayWithFriendActivity : AppCompatActivity(), UpdatePlayerGame {
     }
 
     override fun makeSoundAndVibration(position: Int) {
-//            if (MyServices.SOUND_CHECK) {
-        val mp = MediaPlayer.create(this, if (position - 1 == 0) R.raw.x else R.raw.o)
-        mp.start()
-//            }
-
-//        if (MyServices.VIBRATION_CHECK) {
-        if (Build.VERSION.SDK_INT >= 26) {
-            vibrator?.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE))
-        } else {
-            vibrator?.vibrate(200)
+        if (viewModel.getSoundSetting()) {
+            val mp = MediaPlayer.create(this, if (position - 1 == 0) R.raw.x else R.raw.o)
+            mp.start()
         }
-//        }
+
+        if (viewModel.getVibrationSetting()) {
+            if (Build.VERSION.SDK_INT >= 26) {
+                vibrator?.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE))
+            } else {
+                vibrator?.vibrate(200)
+            }
+        }
     }
 
-    private fun celebrateDialog(player_check: Int) {
+    private fun celebrateDialog(playerPosition: Int) {
         val binding = CelebrateDialogBinding.inflate(this.layoutInflater)
         dialog?.setContentView(binding.root)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -102,9 +107,9 @@ class PlayWithFriendActivity : AppCompatActivity(), UpdatePlayerGame {
         handler.postDelayed({
             binding.celebrateAnimationView.visibility = View.GONE
             binding.container.visibility = View.VISIBLE
-            if (player_check == 0) {
+            if (playerPosition == 0) {
                 binding.playerImg.setImageResource(R.drawable.cross)
-            } else if (player_check == 1) {
+            } else if (playerPosition == 1) {
                 binding.playerImg.setImageResource(R.drawable.circle)
             }
         }, 2300)

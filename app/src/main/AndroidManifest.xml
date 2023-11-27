@@ -21,7 +21,7 @@
             android:name=".ui.gameplay.friend.view.PlayWithFriendActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.settings.SettingsActivity"
+            android:name=".ui.settings.view.SettingsActivity"
             android:exported="false" />
         <activity
             android:name=".ui.main.view.OfflineGameMenuActivity"

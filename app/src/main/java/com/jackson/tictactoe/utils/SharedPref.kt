@@ -9,8 +9,8 @@ class SharedPref(context: Context) {
 
     companion object {
         private const val PREFS_NAME = "sharedpref_tictactoe"
-        const val PREFS_PLAYER_ONE_NAME = "PREFS_PLAYER_ONE_NAME"
-        const val PREFS_PLAYER_TWO_NAME = "PREFS_PLAYER_TWO_NAME"
+        const val PREFS_ENABLE_SOUND = "PREFS_ENABLE_SOUND"
+        const val PREFS_ENABLE_VIBRATION = "PREFS_ENABLE_VIBRATION"
         const val PREFS_PLAYER_ONE = "PREFS_PLAYER_ONE"
         const val PREFS_PLAYER_TWO = "PREFS_PLAYER_TWO"
     }
@@ -34,7 +34,7 @@ class SharedPref(context: Context) {
     }
 
     fun getBoolean(key: String): Boolean {
-        return sharedPref.getBoolean(key, false)
+        return sharedPref.getBoolean(key, true)
     }
 
     fun getString(key: String): String? {

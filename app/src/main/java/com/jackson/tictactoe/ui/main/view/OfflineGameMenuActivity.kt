@@ -11,7 +11,7 @@ import com.jackson.tictactoe.databinding.ActivityOfflineGameMenuBinding
 import com.jackson.tictactoe.ui.gameplay.friend.view.PlayWithFriendActivity
 import com.jackson.tictactoe.ui.gameplay.nickname.view.GetPlayersNamesActivity
 import com.jackson.tictactoe.ui.main.viewmodel.OfflineGameMenuViewModel
-import com.jackson.tictactoe.ui.settings.SettingsActivity
+import com.jackson.tictactoe.ui.settings.view.SettingsActivity
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

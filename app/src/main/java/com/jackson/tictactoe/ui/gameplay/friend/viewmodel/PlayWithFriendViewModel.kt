@@ -23,10 +23,15 @@ class PlayWithFriendViewModel(
 
     private var playerOne = Player()
     private var playerTwo = Player()
+    private var isEnableVibration = false
+    private var isEnableSound = false
+
     override fun init() {
         viewModelScope.launch {
             playerOne = sharedPref.getPlayerOneProfile() ?: Player()
             playerTwo = sharedPref.getPlayerTwoProfile() ?: Player()
+            isEnableVibration = sharedPref.getBoolean(SharedPref.PREFS_ENABLE_VIBRATION)
+            isEnableSound = sharedPref.getBoolean(SharedPref.PREFS_ENABLE_SOUND)
             _modalEvent.emit(PlayWithFriendsUiState.ModalEvent.UpdatePlayerUiState(playerOne, playerTwo))
         }
     }
@@ -50,9 +55,15 @@ class PlayWithFriendViewModel(
         sharedPref.updatePlayerProfile(convertPlayerToJsonString(playerOne), convertPlayerToJsonString(playerTwo))
     }
 
-    fun convertPlayerToJsonString(playerName: Player): String {
+    private fun convertPlayerToJsonString(playerName: Player): String {
         return Gson().toJson(playerName)
     }
 
+    fun getVibrationSetting(): Boolean {
+        return isEnableVibration
+    }
 
+    fun getSoundSetting(): Boolean {
+        return isEnableSound
+    }
 }
