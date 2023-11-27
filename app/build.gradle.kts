@@ -59,7 +59,6 @@ dependencies {
     implementation("com.mikhaellopez:circularimageview:4.3.1")
     implementation("com.airbnb.android:lottie:4.2.1")
     implementation("com.google.code.gson:gson:2.10.1")
-//    implementation("io.insert-koin:koin-core:3.5.2-RC1")
     implementation("io.insert-koin:koin-android:3.5.2-RC1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
