@@ -27,12 +27,18 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
+
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
+
+    kotlin {
+        jvmToolchain(17)
+    }
+
     buildFeatures {
         viewBinding = true
     }
@@ -53,7 +59,6 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.6.2")
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.webkit:webkit:1.8.0")
     implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.28")
     implementation("com.google.android.play:core:1.10.3")
     implementation("com.mikhaellopez:circularimageview:4.3.1")
@@ -61,6 +66,9 @@ dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("io.insert-koin:koin-android:3.5.2-RC1")
     testImplementation("junit:junit:4.13.2")
+    testImplementation("io.mockk:mockk:1.13.8")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("io.mockk:mockk-android:1.13.8")
 }

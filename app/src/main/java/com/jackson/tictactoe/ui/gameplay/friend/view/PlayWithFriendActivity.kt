@@ -8,7 +8,6 @@ import android.graphics.drawable.ColorDrawable
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.view.View
@@ -22,6 +21,7 @@ import com.jackson.tictactoe.ui.gameplay.friend.UpdatePlayerGame
 import com.jackson.tictactoe.ui.gameplay.friend.viewmodel.PlayWithFriendViewModel
 import com.jackson.tictactoe.ui.gameplay.friend.viewmodel.PlayWithFriendsUiState
 import com.jackson.tictactoe.ui.main.view.OfflineGameMenuActivity
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -103,8 +103,8 @@ class PlayWithFriendActivity : AppCompatActivity(), UpdatePlayerGame {
         dialog?.setContentView(binding.root)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.setCanceledOnTouchOutside(false)
-        val handler = Handler()
-        handler.postDelayed({
+        lifecycleScope.launch {
+            delay(2000)
             binding.celebrateAnimationView.visibility = View.GONE
             binding.container.visibility = View.VISIBLE
             if (playerPosition == 0) {
@@ -112,7 +112,7 @@ class PlayWithFriendActivity : AppCompatActivity(), UpdatePlayerGame {
             } else if (playerPosition == 1) {
                 binding.playerImg.setImageResource(R.drawable.circle)
             }
-        }, 2300)
+        }
         binding.quitBtn.setOnClickListener {
             dialog?.dismiss()
             OfflineGameMenuActivity.startActivity(this@PlayWithFriendActivity)

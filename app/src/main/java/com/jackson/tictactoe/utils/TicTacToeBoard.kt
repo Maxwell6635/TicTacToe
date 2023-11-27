@@ -178,7 +178,7 @@ class TicTacToeBoard(context: Context, attrs: AttributeSet?) : View(context, att
 
     fun setUpGame(playerDisplay: TextView?, names: Array<Player>, updatePlayerGame: UpdatePlayerGame) {
         game.playerTurn = playerDisplay
-        game.setPlayerNames(arrayOf(names[0].name.toString(), names[1].name.toString()))
+        game.setUpdatedPlayerNames(arrayOf(names[0].name.toString(), names[1].name.toString()))
         listener = updatePlayerGame
     }
 

@@ -3,8 +3,8 @@ package com.jackson.tictactoe.utils
 import android.widget.TextView
 
 class GameLogic internal constructor() {
-    val gameBoard: Array<IntArray> = Array(3) { IntArray(3) }
-    private var playerNames = arrayOf("Player 1", "Player 2")
+    var gameBoard: Array<IntArray> = Array(3) { IntArray(3) }
+    var playerNames = arrayOf("Player 1", "Player 2")
 
     var playerTurn: TextView? = null
     var winningRate: TextView? = null
@@ -92,7 +92,7 @@ class GameLogic internal constructor() {
         winningRate?.text
     }
 
-    fun setPlayerNames(playerNames: Array<String>) {
+    fun setUpdatedPlayerNames(playerNames: Array<String>) {
         this.playerNames = playerNames
     }
 }
