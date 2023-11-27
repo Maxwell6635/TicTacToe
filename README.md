@@ -1,11 +1,14 @@
 # TicTacToe
-
 A simple kotlin version of TicTacToe Android
 
 ## Demo
+[Screen Recording](https://github.com/Maxwell6635/TicTacToe/blob/main/Screen_recording_20231127_182651.webm)
 
 ## Setup & Installation
-- Clone this project
+- Required latest Android Studio Giraffe & Gradle 8.0 and above
+- Clone this project in your local machine
+- Sync with your gradle
+- Build & Run into your emulator device
 
 ## Tech Stack
 
